@@ -3,4 +3,6 @@
     <string name="broker_address">服务器地址：</string>
     <string name="username">用户名：</string>
     <string name="password">密码：</string>
+    <string name="publisher">发布者</string>
+    <string name="subscriber">订阅者</string>
 </resources>

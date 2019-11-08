@@ -1,10 +1,12 @@
 package com.zwj.mqtt_debug;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ViewFlipper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     TextInputEditText etPassword;
     @BindView(R.id.viewFlipper)
     ViewFlipper viewFlipper;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
