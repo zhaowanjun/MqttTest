@@ -6,27 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ViewFlipper
             android:id="@+id/viewFlipper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/scroll_bottom_margin"
+            android:layout_height="match_parent"
             android:inAnimation="@android:anim/fade_in"
-            android:measureAllChildren="false"
             tools:context=".MainActivity"
             tools:showIn="@layout/activity_main">
 
-            <include layout="@layout/content_connect"  />
+            <include layout="@layout/content_connect" />
 
             <include layout="@layout/content_communicate" />
         </ViewFlipper>
-
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
