@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -17,6 +17,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_m"
             android:padding="@dimen/content_margin"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_subscriber"
             android:layout_width="match_parent"
@@ -41,5 +42,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:drawable/edit_text"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/content_margin"
+            android:background="@android:drawable/edit_text"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/content_margin"
+            android:layout_marginBottom="@dimen/content_margin"
+            android:layout_marginEnd="@dimen/content_margin"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/send"
+            android:textColor="@android:color/white"/>
     </LinearLayout>
 </LinearLayout>
