@@ -52,16 +52,18 @@ public class MainActivity extends AppCompatActivity {
     Button btnConnect;
     @BindView(R.id.tv_toolbar_content)
     TextView tvToolbarContent;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    @BindView(R.id.toolbar1)
+    Toolbar toolbar1;
     @BindView(R.id.iv_connect_success)
     ImageView ivConnectSuccess;
     @BindView(R.id.iv_connect_fail)
     ImageView ivConnectFail;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    @BindView(R.id.floating_action_button)
-    FloatingActionButton floatingActionButton;
+    @BindView(R.id.fab_go)
+    FloatingActionButton fabGo;
+    @BindView(R.id.toolbar2)
+    Toolbar toolbar2;
     private MqttAsyncClient mqttAsyncClient;
     private boolean isConnect = false;
 
@@ -73,19 +75,19 @@ public class MainActivity extends AppCompatActivity {
                 case MSG_CONNECT_SUCCESS:
                     progressBar.setVisibility(View.GONE);
                     ivConnectSuccess.setVisibility(View.VISIBLE);
-                    floatingActionButton.show();
+                    fabGo.show();
                     btnConnect.setText(getString(R.string.disconnect));
                     tvToolbarContent.setTextColor(getResources().getColor(R.color.white));
                     tvToolbarContent.setText(getString(R.string.connect_success));
-                    toolbar.setBackgroundColor(getResources().getColor(R.color.success));
+                    toolbar1.setBackgroundColor(getResources().getColor(R.color.success));
                     break;
                 case MSG_DISCONNECT_SUCCESS:
                     progressBar.setVisibility(View.GONE);
-                    floatingActionButton.hide();
+                    fabGo.hide();
                     btnConnect.setText(getString(R.string.connect));
                     tvToolbarContent.setTextColor(getResources().getColor(R.color.white));
                     tvToolbarContent.setText(getString(R.string.has_disconnect));
-                    toolbar.setBackgroundColor(getResources().getColor(R.color.accent));
+                    toolbar1.setBackgroundColor(getResources().getColor(R.color.accent));
                     break;
                 case MSG_CONNECT_FAIL:
                     progressBar.setVisibility(View.GONE);
@@ -110,6 +112,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        setSupportActionBar(toolbar2);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar2.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewFlipper.showPrevious();
+            }
+        });
     }
 
     /**
@@ -171,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.btn_connect, R.id.floating_action_button})
+    @OnClick({R.id.btn_connect, R.id.fab_go})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_connect:
@@ -196,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                     disconnectBroker();
                 }
                 break;
-            case R.id.floating_action_button:
+            case R.id.fab_go:
                 viewFlipper.showNext();
                 break;
         }

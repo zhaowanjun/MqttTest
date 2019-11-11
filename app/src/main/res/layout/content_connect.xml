@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar1"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:background="@color/primary"
@@ -110,14 +110,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/button_margin"
-        android:backgroundTint="@color/accent"
+        android:backgroundTint="@color/colorPrimary"
         android:text="@string/connect"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_m"/>
+        android:textSize="@dimen/text_m" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:visibility="gone"
-        android:id="@+id/floating_action_button"
+        android:id="@+id/fab_go"
         style="@style/Widget.MaterialComponents.FloatingActionButton"
         app:srcCompat="@drawable/go"
         android:layout_height="wrap_content"

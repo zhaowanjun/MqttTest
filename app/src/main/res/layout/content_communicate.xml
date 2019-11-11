@@ -4,44 +4,168 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary"
+        app:title="@string/set_topic"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/accent"
-            android:text="@string/subscriber"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_m"
-            android:padding="@dimen/content_margin"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/subscriber"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_m"
+                android:padding="@dimen/content_margin"/>
+
+            <EditText
+                android:id="@+id/et_sub_topic"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/edit_text_margin"
+                android:background="@android:drawable/editbox_background_normal" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/content_margin"
+                android:layout_marginRight="@dimen/button_margin">
+                <Button
+                    android:id="@+id/btn_sub_ok"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="@string/ok"
+                    android:textColor="@android:color/white"/>
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_sub_topic_success"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ok"/>
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_sub_topic_fail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/alert"/>
+
+                <ProgressBar
+                    android:visibility="gone"
+                    android:id="@+id/pb_sub_topic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:indeterminateTint="@color/warning"
+                    android:layout_gravity="center"
+                    android:indeterminate="true" />
+            </FrameLayout>
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_subscriber"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:drawable/edit_text"/>
+            android:background="@color/light_dark"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/accent"
-            android:text="@string/publisher"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_m"
-            android:padding="@dimen/content_margin"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/publisher"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_m"
+                android:padding="@dimen/content_margin"/>
+
+            <EditText
+                android:id="@+id/et_pub_topic"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/edit_text_margin"
+                android:background="@android:drawable/editbox_background_normal" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/content_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btn_pub_ok"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:gravity="center"
+                    android:text="@string/ok"
+                    android:textColor="@android:color/white" />
+
+                <ImageView
+                    android:id="@+id/iv_pub_topic_success"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ok"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_pub_topic_fail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/alert"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/pb_pub_topic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/warning"
+                    android:visibility="gone" />
+            </FrameLayout>
+        </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_publisher"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:drawable/edit_text"/>
+            android:background="@color/light_dark"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,7 +177,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="@dimen/content_margin"
-            android:background="@android:drawable/edit_text"/>
+            android:background="@android:drawable/editbox_background_normal"/>
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -63,6 +187,7 @@
             android:layout_marginTop="@dimen/content_margin"
             android:layout_marginBottom="@dimen/content_margin"
             android:layout_marginEnd="@dimen/content_margin"
+            android:layout_marginRight="@dimen/button_margin"
             android:backgroundTint="@color/colorPrimary"
             android:text="@string/send"
             android:textColor="@android:color/white"/>
