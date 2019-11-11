@@ -1,4 +1,4 @@
-package com.zwj.mqtt_debug;
+package com.zwj.mqtt_test;
 
 import android.os.Bundle;
 import android.os.Handler;
