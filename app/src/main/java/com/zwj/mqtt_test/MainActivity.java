@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,9 +37,11 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
     public static final int MSG_CONNECT_SUCCESS = 0x01;
-    public static final int MSG_CONNECT_FAIL = 0x02;
+    public static final int MSG_CONNECT_FAILD = 0x02;
     public static final int MSG_DISCONNECT_SUCCESS = 0x03;
     public static final int MSG_DISCONNECT_FAIL = 0x04;
+    public static final int MSG_SUB_TOPIC_SUCCESS = 0x05;
+    public static final int MSG_SUB_TOPIC_FAILD = 0x06;
     final String clientId = UUID.randomUUID().toString();
     @BindView(R.id.et_broker)
     TextInputEditText etBroker;
@@ -64,6 +67,18 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fabGo;
     @BindView(R.id.toolbar2)
     Toolbar toolbar2;
+    @BindView(R.id.et_sub_topic)
+    EditText etSubTopic;
+    @BindView(R.id.et_pub_topic)
+    EditText etPubTopic;
+    @BindView(R.id.btn_sub_topic_ok)
+    Button btnSubTopicOk;
+    @BindView(R.id.btn_pub_topic_ok)
+    Button btnPubTopicOk;
+    @BindView(R.id.pb_sub_topic)
+    ProgressBar pbSubTopic;
+    @BindView(R.id.pb_pub_topic)
+    ProgressBar pbPubTopic;
     private MqttAsyncClient mqttAsyncClient;
     private boolean isConnect = false;
 
@@ -89,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     tvToolbarContent.setText(getString(R.string.has_disconnect));
                     toolbar1.setBackgroundColor(getResources().getColor(R.color.accent));
                     break;
-                case MSG_CONNECT_FAIL:
+                case MSG_CONNECT_FAILD:
                     progressBar.setVisibility(View.GONE);
                     ivConnectFail.setVisibility(View.VISIBLE);
                     tvToolbarContent.setTextColor(getResources().getColor(R.color.error));
@@ -100,6 +115,14 @@ public class MainActivity extends AppCompatActivity {
                     ivConnectFail.setVisibility(View.VISIBLE);
                     tvToolbarContent.setTextColor(getResources().getColor(R.color.error));
                     tvToolbarContent.setText(getString(R.string.disconnect_fail));
+                    break;
+                case MSG_SUB_TOPIC_SUCCESS:
+                    btnSubTopicOk.setVisibility(View.VISIBLE);
+                    pbSubTopic.setVisibility(View.GONE);
+                    break;
+                case MSG_SUB_TOPIC_FAILD:
+                    btnSubTopicOk.setVisibility(View.VISIBLE);
+                    pbSubTopic.setVisibility(View.GONE);
                     break;
                 default:
                     break;
@@ -157,20 +180,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 订阅主题
-     */
-    private void subscribeTopic(String topic) {
-        if (mqttAsyncClient == null) {
-            return;
-        }
-        try {
-            mqttAsyncClient.subscribe(topic, 0, new MqttReceiver());
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * 发布消息
      */
     private void publishMessage(String topic, String content) {
@@ -185,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.btn_connect, R.id.fab_go})
+    @OnClick({R.id.btn_connect, R.id.fab_go, R.id.btn_sub_topic_ok, R.id.btn_pub_topic_ok})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_connect:
@@ -213,8 +222,50 @@ public class MainActivity extends AppCompatActivity {
             case R.id.fab_go:
                 viewFlipper.showNext();
                 break;
+            case R.id.btn_sub_topic_ok:
+                btnSubTopicOk.setVisibility(View.GONE);
+                pbSubTopic.setVisibility(View.VISIBLE);
+                setSubscribeTopic();
+                break;
+            case R.id.btn_pub_topic_ok:
+                btnPubTopicOk.setVisibility(View.GONE);
+                pbPubTopic.setVisibility(View.VISIBLE);
+                setPublishTopic();
+                break;
         }
 
+    }
+
+    /**
+     * 设置发布主题
+     */
+    private void setPublishTopic() {
+
+    }
+
+    /**
+     * 设置订阅主题
+     */
+    private void setSubscribeTopic() {
+        if (mqttAsyncClient == null) {
+            return;
+        }
+        try {
+            String topic = etSubTopic.getText().toString().trim();
+            mqttAsyncClient.subscribe(topic, 0, null, new IMqttActionListener() {
+                @Override
+                public void onSuccess(IMqttToken asyncActionToken) {
+                    handler.sendEmptyMessage(MSG_SUB_TOPIC_SUCCESS);
+                }
+
+                @Override
+                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                    handler.sendEmptyMessage(MSG_SUB_TOPIC_FAILD);
+                }
+            });
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -237,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
         public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
             if (!isConnect) {
                 Log.i("=====", "连接失败");
-                handler.sendEmptyMessage(MSG_CONNECT_FAIL);
+                handler.sendEmptyMessage(MSG_CONNECT_FAILD);
             } else {
                 Log.i("=====", "断开连接失败");
                 handler.sendEmptyMessage(MSG_DISCONNECT_FAIL);

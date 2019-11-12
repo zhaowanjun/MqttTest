@@ -25,21 +25,32 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:layout_height="wrap_content"
                 android:text="@string/subscriber"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_m"
                 android:padding="@dimen/content_margin"/>
 
-            <EditText
-                android:id="@+id/et_sub_topic"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/edit_text_margin"
-                android:background="@android:drawable/editbox_background_normal" />
+                android:layout_weight="3"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:text="@string/topic"/>
+                <EditText
+                    android:id="@+id/et_sub_topic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/edit_text_margin"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:textColor="@color/warning"/>
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="0dp"
@@ -48,29 +59,14 @@
                 android:layout_marginEnd="@dimen/content_margin"
                 android:layout_marginRight="@dimen/button_margin">
                 <Button
-                    android:id="@+id/btn_sub_ok"
+                    android:id="@+id/btn_sub_topic_ok"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:backgroundTint="@color/colorPrimary"
+                    android:backgroundTint="@color/warning"
                     android:text="@string/ok"
                     android:textColor="@android:color/white"/>
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/iv_sub_topic_success"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ok"/>
-
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/iv_sub_topic_fail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/alert"/>
 
                 <ProgressBar
                     android:visibility="gone"
@@ -102,54 +98,49 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:layout_height="wrap_content"
                 android:text="@string/publisher"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_m"
                 android:padding="@dimen/content_margin"/>
 
-            <EditText
-                android:id="@+id/et_pub_topic"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/edit_text_margin"
-                android:background="@android:drawable/editbox_background_normal" />
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/content_margin"
-                android:layout_marginRight="@dimen/button_margin"
-                android:layout_weight="1">
-
-                <Button
-                    android:id="@+id/btn_pub_ok"
+                android:layout_weight="3"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:text="@string/topic"/>
+                <EditText
+                    android:id="@+id/et_pub_topic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:backgroundTint="@color/colorPrimary"
+                    android:layout_margin="@dimen/edit_text_margin"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:textColor="@color/warning"/>
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/content_margin"
+                android:layout_marginRight="@dimen/button_margin">
+
+                <Button
+                    android:id="@+id/btn_pub_topic_ok"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/warning"
                     android:gravity="center"
                     android:text="@string/ok"
                     android:textColor="@android:color/white" />
-
-                <ImageView
-                    android:id="@+id/iv_pub_topic_success"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ok"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/iv_pub_topic_fail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/alert"
-                    android:visibility="gone" />
 
                 <ProgressBar
                     android:id="@+id/pb_pub_topic"
