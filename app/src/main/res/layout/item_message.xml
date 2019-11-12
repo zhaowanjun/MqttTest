@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:gravity="center_vertical"
     android:layout_height="?attr/actionBarSize"
-    android:background="@android:color/black">
+    android:background="@android:color/transparent">
 
     <TextView
         android:id="@+id/tv_time"

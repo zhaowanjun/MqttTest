@@ -6,15 +6,18 @@
     <string name="publisher">发布者</string>
     <string name="subscriber">订阅者</string>
     <string name="connect">连接</string>
+    <string name="connecting">连接中</string>
     <string name="disconnect">断开连接</string>
     <string name="connect_success">连接成功</string>
     <string name="connect_fail">连接失败</string>
     <string name="has_disconnect">已断开连接</string>
     <string name="disconnect_fail">断开连接失败</string>
-    <string name="cannot_null">服务器、用户名和密码必须都填写！！！</string>
+    <string name="login_msg_cant_null">服务器、用户名和密码必须都填写！！！</string>
     <string name="send">发布</string>
     <string name="set_topic">请先设置发布和订阅的主题</string>
-    <string name="topic">主题</string>
-    <string name="current_topic">当前主题</string>
-    <string name="ok">确定</string>
+    <string name="topic_cant_null">主题不能为空！</string>
+    <string name="set">设置</string>
+    <string name="topic">主题:</string>
+    <string name="set_failed">设置失败！</string>
+    <string name="network_error">网络好像不对劲儿</string>
 </resources>

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.zwj.mqtt_debug"
+        applicationId "com.zwj.mqtt.test"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
