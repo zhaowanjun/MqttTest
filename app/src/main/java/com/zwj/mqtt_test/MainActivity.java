@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int MSG_SUB_TOPIC_FAILED = 0x06;
     public static final int MSG_PUBLISH_SUCCESS = 0x07;
     public static final int MSG_PUBLISH_FAILED = 0x08;
+    public static final int MSG_RECEIVE_MESSAGE = 0x09;
+
     final String clientId = UUID.randomUUID().toString();
     @BindView(R.id.et_broker)
     TextInputEditText etBroker;
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     tvToolbarContent.setTextColor(getResources().getColor(R.color.white));
                     tvToolbarContent.setText(getString(R.string.has_disconnect));
                     toolbar1.setBackgroundColor(getResources().getColor(R.color.accent));
+                    clearTopicAndMessage();
                     break;
                 case MSG_CONNECT_FAILED:
                     progressBar.setVisibility(View.GONE);
@@ -139,22 +143,36 @@ public class MainActivity extends AppCompatActivity {
                     pbSetSubTopic.setVisibility(View.GONE);
                     ivSubStatus.setImageResource(R.drawable.ok);
                     ivSubStatus.setVisibility(View.VISIBLE);
+                    etPubTopic.setTextColor(getResources().getColor(R.color.success_dark));
                     break;
                 case MSG_SUB_TOPIC_FAILED:
                     pbSetSubTopic.setVisibility(View.GONE);
                     ivSubStatus.setImageResource(R.drawable.alert);
                     ivSubStatus.setVisibility(View.VISIBLE);
+                    etPubTopic.setTextColor(getResources().getColor(R.color.error));
                     etSubTopic.setText(getString(R.string.set_failed));
                     break;
                 case MSG_PUBLISH_SUCCESS:
                     break;
                 case MSG_PUBLISH_FAILED:
                     break;
+                case MSG_RECEIVE_MESSAGE:
+                    String content = (String) msg.obj;
+                    setSubscribeWindow(content);
+                    break;
                 default:
                     break;
             }
         }
     };
+
+    private void clearTopicAndMessage() {
+        etPubTopic.setText("");
+        etSubTopic.setText("");
+        subscribeAdapter.clearData();
+        publishAdapter.clearData();
+    }
+
     private SubscribeAdapter subscribeAdapter;
     private PublishAdapter publishAdapter;
 
@@ -218,6 +236,8 @@ public class MainActivity extends AppCompatActivity {
         toolbar2.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                viewFlipper.setInAnimation(MainActivity.this, R.anim.slide_in_right);
+                viewFlipper.setOutAnimation(MainActivity.this, R.anim.slide_out_right);
                 viewFlipper.showPrevious();
                 //收回键盘
                 InputMethodManager manager = ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
@@ -318,6 +338,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.fab_go:
+                viewFlipper.setInAnimation(this, R.anim.slide_in_left);
+                viewFlipper.setOutAnimation(this, R.anim.slide_out_left);
                 viewFlipper.showNext();
                 break;
             case R.id.btn_sub_topic_ok:
@@ -353,6 +375,11 @@ public class MainActivity extends AppCompatActivity {
      * 设置发布主题
      */
     private void setPublishTopic() {
+        String topic = etPubTopic.getText().toString().trim();
+        if (TextUtils.isEmpty(topic)) {
+            Toast.makeText(this, getString(R.string.topic_cant_null), Toast.LENGTH_SHORT).show();
+            return;
+        }
         etPubTopic.clearFocus();
         ivPubStatus.setVisibility(View.VISIBLE);
     }
@@ -370,6 +397,7 @@ public class MainActivity extends AppCompatActivity {
             String topic = etSubTopic.getText().toString().trim();
             if (TextUtils.isEmpty(topic)) {
                 Toast.makeText(this, getString(R.string.topic_cant_null), Toast.LENGTH_SHORT).show();
+                return;
             }
             mqttAsyncClient.subscribe(topic, 0, null, new IMqttActionListener() {
                 @Override
@@ -420,14 +448,30 @@ public class MainActivity extends AppCompatActivity {
      */
     public class MqttReceiver implements IMqttMessageListener {
         @Override
-        public void messageArrived(String topic, MqttMessage message) {
-            System.out.println("=====messageReceiver:" + message);
-            setSubscribeWindow(message.toString());
+        public void messageArrived(String topic, MqttMessage mqttMessage) {
+            System.out.println("=====messageReceiver:" + mqttMessage);
+            Message message = handler.obtainMessage(MSG_RECEIVE_MESSAGE, mqttMessage.toString());
+            handler.sendMessage(message);
         }
     }
 
     private void setSubscribeWindow(String content) {
         subscribeAdapter.addData(content);
         rvSubscriber.smoothScrollToPosition(subscribeAdapter.getItemCount());
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(event.getAction() == KeyEvent.ACTION_DOWN){
+            if(viewFlipper.getDisplayedChild() != 0) {
+                viewFlipper.setInAnimation(this, R.anim.slide_in_right);
+                viewFlipper.setOutAnimation(this, R.anim.slide_out_right);
+                viewFlipper.showPrevious();
+                return true;
+            } else {
+                finish();
+            }
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }

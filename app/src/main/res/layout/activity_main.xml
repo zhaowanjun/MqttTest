@@ -17,7 +17,6 @@
             android:id="@+id/viewFlipper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inAnimation="@android:anim/fade_in"
             tools:context=".MainActivity"
             tools:showIn="@layout/activity_main">
 
