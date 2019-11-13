@@ -1,5 +1,6 @@
 package com.zwj.mqtt_test;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -101,9 +103,12 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvSubscriber;
     @BindView(R.id.rv_publisher)
     RecyclerView rvPublisher;
+    @BindView(R.id.layout_test_page)
+    LinearLayout layoutTestPage;
     private MqttAsyncClient mqttAsyncClient;
     private boolean isConnect = false;
 
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -158,7 +163,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case MSG_RECEIVE_MESSAGE:
                     String content = (String) msg.obj;
-                    setSubscribeWindow(content);
+                    MessageBean messageBean = new MessageBean();
+                    messageBean.setDateTime(Utils.getDateTime());
+                    messageBean.setContent(content);
+                    setSubscribeWindow(messageBean);
                     break;
                 default:
                     break;
@@ -222,6 +230,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initAdapter() {
+        //下面两行代码固定页面高度，避免NestedScrollView嵌套recyclerview导致的高度不固定问题
+        int activityHeight = Utils.getScreenHeight(this) - Utils.getStatusBarHeight(this);
+        layoutTestPage.getLayoutParams().height = activityHeight;
         subscribeAdapter = new SubscribeAdapter(this, new ArrayList<>());
         rvSubscriber.setLayoutManager(new LinearLayoutManager(this));
         rvSubscriber.setAdapter(subscribeAdapter);
@@ -356,18 +367,21 @@ public class MainActivity extends AppCompatActivity {
                 }
                 String content = etPublishMsg.getText().toString().trim();
                 if (TextUtils.isEmpty(content)) {
-                    Toast.makeText(this, getString(R.string.topic_cant_null), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.content_cant_null), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 publishMessage(topic, content);
-                setPublishWindow(content);
+                MessageBean messageBean = new MessageBean();
+                messageBean.setDateTime(Utils.getDateTime());
+                messageBean.setContent(content);
+                setPublishWindow(messageBean);
                 break;
         }
     }
 
-    private void setPublishWindow(String content) {
+    private void setPublishWindow(MessageBean messageBean) {
         etPublishMsg.setText("");
-        publishAdapter.addData(content);
+        publishAdapter.addData(messageBean);
         rvPublisher.smoothScrollToPosition(publishAdapter.getItemCount());
     }
 
@@ -455,15 +469,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setSubscribeWindow(String content) {
-        subscribeAdapter.addData(content);
+    private void setSubscribeWindow(MessageBean messageBean) {
+        subscribeAdapter.addData(messageBean);
         rvSubscriber.smoothScrollToPosition(subscribeAdapter.getItemCount());
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(event.getAction() == KeyEvent.ACTION_DOWN){
-            if(viewFlipper.getDisplayedChild() != 0) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (viewFlipper.getDisplayedChild() != 0) {
                 viewFlipper.setInAnimation(this, R.anim.slide_in_right);
                 viewFlipper.setOutAnimation(this, R.anim.slide_out_right);
                 viewFlipper.showPrevious();

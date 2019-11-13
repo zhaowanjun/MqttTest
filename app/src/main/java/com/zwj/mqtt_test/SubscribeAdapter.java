@@ -13,9 +13,9 @@ import java.util.List;
 
 public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.ViewHolder> {
     private  Context context;
-    private List<String> datas;
+    private List<MessageBean> datas;
 
-    public SubscribeAdapter(Context context, List<String> datas) {
+    public SubscribeAdapter(Context context, List<MessageBean> datas) {
         this.context = context;
         this.datas = datas;
     }
@@ -29,8 +29,9 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvTime.setText(Utils.getDateTime());
-        holder.tvMsg.setText(datas.get(position));
+        MessageBean messageBean = datas.get(position);
+        holder.tvTime.setText(messageBean.getDateTime());
+        holder.tvMsg.setText(messageBean.getContent());
     }
 
     @Override
@@ -52,8 +53,8 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.View
         }
     }
 
-    public void addData(String massage) {
-        datas.add(massage);
+    public void addData(MessageBean messageBean) {
+        datas.add(messageBean);
         notifyDataSetChanged();
     }
 

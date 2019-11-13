@@ -21,8 +21,8 @@
             tools:showIn="@layout/activity_main">
 
             <include layout="@layout/content_connect" />
+            <include layout="@layout/content_test" />
 
-            <include layout="@layout/content_communicate" />
         </ViewFlipper>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
